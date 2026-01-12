@@ -23,9 +23,7 @@ import { useAuth } from "@/components/providers/auth-provider";
    Schema (somente o necessário)
 ========================= */
 const formSchema = z.object({
-  destinatarios: z
-    .string()
-    .min(5, "Informe ao menos um destinatário"),
+  destinatarios: z.string().min(5, "Informe ao menos um destinatário"),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -36,6 +34,7 @@ export function EnvioEmailForm() {
   const [isLoadingEmails, setIsLoadingEmails] = useState(false);
 
   // Aqui ficarão os dados puxados do outro fluxo
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
   const [emailsLidos, setEmailsLidos] = useState<any[]>([]);
 
   const form = useForm<FormValues>({
@@ -47,6 +46,8 @@ export function EnvioEmailForm() {
 
   if (loading) return <p>Carregando...</p>;
   if (!user) return <p>Não autenticado</p>;
+
+  const authUser = user;
 
   /* =========================
      Ler e-mails (outro fluxo)
@@ -70,9 +71,7 @@ export function EnvioEmailForm() {
 
       toast.success("E-mails carregados com sucesso");
 
-      // 👉 Se quiser futuramente preencher o textarea:
-      // form.setValue("destinatarios", transformarData(data));
-
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       toast.error("Falha ao buscar e-mails");
     } finally {
@@ -89,9 +88,7 @@ export function EnvioEmailForm() {
     const destinatarios = values.destinatarios
       .split("\n")
       .map((linha) => {
-        const [email, empresa, link] = linha
-          .split(";")
-          .map((s) => s.trim());
+        const [email, empresa, link] = linha.split(";").map((s) => s.trim());
         return { email, empresa, link };
       })
       .filter((d) => d.email && d.empresa && d.link);
@@ -104,10 +101,10 @@ export function EnvioEmailForm() {
 
     const payload = {
       remetente: {
-        nome: user.first_name,
-        sobrenome: user.last_name,
-        cargo: user.cargo,
-        email: user.email,
+        nome: authUser.first_name,
+        sobrenome: authUser.last_name,
+        cargo: authUser.cargo,
+        email: authUser.email,
       },
       destinatarios,
     };
@@ -176,11 +173,7 @@ export function EnvioEmailForm() {
             )}
           />
 
-          <Button
-            type="submit"
-            className="w-full"
-            disabled={isSending}
-          >
+          <Button type="submit" className="w-full" disabled={isSending}>
             {isSending ? "Enviando..." : "Enviar E-mails"}
             {!isSending && <Send className="ml-2 h-4 w-4" />}
           </Button>
