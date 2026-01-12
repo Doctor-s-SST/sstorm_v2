@@ -60,7 +60,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
          <SidebarLogo />
       </SidebarHeader>
 
-      <SidebarContent>
+      <SidebarContent className="mt-5">
         <NavMain items={data.navMain} />
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>

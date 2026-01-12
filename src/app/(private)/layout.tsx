@@ -13,6 +13,7 @@ function PrivateShell({ children }: { children: React.ReactNode }) {
   if (loading) return null
 
   if (!user) {
+    // eslint-disable-next-line react-hooks/immutability
     window.location.href = "/login"
     return null
   }

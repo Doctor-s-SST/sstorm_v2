@@ -7,14 +7,25 @@ export default function SidebarLogo() {
 
   return (
     <Link href="/" className="flex items-center justify-center w-full">
-      <Image
-        src="/email-assets/logo-doctors.png"
-        alt="Logo Doctor's SST"
-        width={140}
-        height={40}
-        priority
-        className="object-contain"
-      />
+        {state === "expanded" ? (
+        <Image
+          src="/email-assets/doctors-svg.svg"
+          alt="Logo Doctor's SST"
+          width={100}
+          height={40}
+          priority
+          className="object-contain mt-9"
+        />
+      ) : (
+        <Image
+          src="/email-assets/doctors-fav.svg"
+          alt="Logo Doctor's SST"
+          width={32}
+          height={32}
+          priority
+          className="object-contain"
+        />
+      )}
     </Link>
   );
 }
