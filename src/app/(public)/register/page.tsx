@@ -83,7 +83,7 @@ export default function RegisterPage() {
               <FormItem>
                 <FormLabel>Nome</FormLabel>
                 <FormControl>
-                  <Input placeholder="Ex: Gabriel" {...field} />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -95,9 +95,9 @@ export default function RegisterPage() {
             name="last_name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Sobrenome</FormLabel>
+                <FormLabel>Sobrenome (igual na assinatura do e-mail)</FormLabel>
                 <FormControl>
-                  <Input placeholder="Ex: Abreu" {...field} />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -109,9 +109,9 @@ export default function RegisterPage() {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email corporativo</FormLabel>
+                <FormLabel>E-mail corporativo</FormLabel>
                 <FormControl>
-                  <Input placeholder="nome@empresa.com" {...field} />
+                  <Input placeholder="nome@doctorspraiagrande.com.br" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -123,7 +123,7 @@ export default function RegisterPage() {
             name="cargo"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Cargo</FormLabel>
+                <FormLabel>Cargo (igual na assinatura do e-mail)</FormLabel>
                 <FormControl>
                   <Input placeholder="Ex: Auxiliar Administrativo" {...field} />
                 </FormControl>
