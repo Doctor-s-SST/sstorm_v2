@@ -19,7 +19,6 @@ const formSchema = z.object({
 type DownloadItem = { url: string; filename: string };
 
 export function UploadForm() {
-  // 2. Estado agora é uma lista de downloads
   const [downloads, setDownloads] = useState<DownloadItem[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
 
@@ -37,7 +36,6 @@ export function UploadForm() {
     const processarArquivos = async () => {
       const resultados: DownloadItem[] = [];
 
-      // Processa um por um para evitar sobrecarga excessiva imediata na API
       for (const arquivo of arquivos) {
         const formData = new FormData();
         formData.append("texto", values.texto);
@@ -93,7 +91,7 @@ export function UploadForm() {
             name="arquivo"
             render={({ field: { onChange, onBlur, name, ref } }) => (
               <FormItem>
-                <FormLabel>Arquivos Excel (Selecione um ou vários)</FormLabel>
+                <FormLabel>Arquivo Excel do SOC (Selecione um ou vários)</FormLabel>
                 <FormControl>
                   <Input
                     type="file"
