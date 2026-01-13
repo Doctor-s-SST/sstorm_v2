@@ -1,86 +1,83 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { toast } from "sonner"
-import {
-  Send,
-  CheckCircle2,
-  MailOpen,
-  Plus,
-  Trash2,
-} from "lucide-react"
+import { useState } from "react";
+import { toast } from "sonner";
+import { Send, CheckCircle2, MailOpen, Plus, Trash2 } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { useAuth } from "@/components/providers/auth-provider"
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useAuth } from "@/components/providers/auth-provider";
 
 /* =========================
    Types
 ========================= */
 type Destinatario = {
-  email: string
-  empresa: string
-  link: string
-}
+  email: string;
+  empresa: string;
+  link: string;
+};
 
 export function EnvioEmailForm() {
-  const { user, loading } = useAuth()
+  const { user, loading } = useAuth();
 
-  const [emailsLidos, setEmailsLidos] = useState<Destinatario[]>([])
-  const [isLoadingEmails, setIsLoadingEmails] = useState(false)
-  const [isSending, setIsSending] = useState(false)
+  const [emailsLidos, setEmailsLidos] = useState<Destinatario[]>([]);
+  const [isLoadingEmails, setIsLoadingEmails] = useState(false);
+  const [isSending, setIsSending] = useState(false);
 
-  const [dataInicio, setDataInicio] = useState("")
-  const [dataFim, setDataFim] = useState("")
+  const [dataInicio, setDataInicio] = useState("");
+  const [dataFim, setDataFim] = useState("");
 
   /* =========================
      Guards
   ========================= */
-  if (loading) return <p>Carregando...</p>
-  if (!user) return <p>Não autenticado</p>
+  if (loading) return <p>Carregando...</p>;
+  if (!user) return <p>Não autenticado</p>;
 
-  const authUser = user
+  const authUser = user;
 
   /* =========================
      Ler e-mails (n8n)
   ========================= */
   async function handleLerEmails() {
     if (!dataInicio || !dataFim) {
-      toast.error("Informe a data de início e fim")
-      return
+      toast.error("Informe a data de início e fim");
+      return;
     }
 
     try {
-      setIsLoadingEmails(true)
+      setIsLoadingEmails(true);
 
       const res = await fetch("/api/ler-email-quest", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ dataInicio, dataFim }),
-      })
+      });
 
-      if (!res.ok) throw new Error()
+      const response = await res.json();
 
-      const response = await res.json()
+      if (!res.ok) {
+        toast.error(response.message || "Erro ao buscar e-mails");
+        return;
+      }
 
       const emails: Destinatario[] = Array.isArray(response)
         ? response
         : Array.isArray(response.data)
-          ? response.data
-          : []
+        ? response.data
+        : [];
 
       if (emails.length === 0) {
-        toast.error("Nenhum e-mail válido retornado")
-        return
+        toast.error("Nenhum e-mail válido retornado");
+        return;
       }
 
-      setEmailsLidos(emails)
+      setEmailsLidos(emails);
 
-      toast.success("E-mails carregados com sucesso")
+      toast.success("E-mails carregados com sucesso");
     } catch {
-      toast.error("Falha ao buscar e-mails")
+      toast.error("Falha ao buscar e-mails");
     } finally {
-      setIsLoadingEmails(false)
+      setIsLoadingEmails(false);
     }
   }
 
@@ -88,10 +85,7 @@ export function EnvioEmailForm() {
      Adicionar manualmente
   ========================= */
   function adicionarManual() {
-    setEmailsLidos((prev) => [
-      ...prev,
-      { email: "", empresa: "", link: "" },
-    ])
+    setEmailsLidos((prev) => [...prev, { email: "", empresa: "", link: "" }]);
   }
 
   /* =========================
@@ -103,17 +97,15 @@ export function EnvioEmailForm() {
     valor: string
   ) {
     setEmailsLidos((prev) =>
-      prev.map((item, i) =>
-        i === index ? { ...item, [campo]: valor } : item
-      )
-    )
+      prev.map((item, i) => (i === index ? { ...item, [campo]: valor } : item))
+    );
   }
 
   /* =========================
      Remover item
   ========================= */
   function removerItem(index: number) {
-    setEmailsLidos((prev) => prev.filter((_, i) => i !== index))
+    setEmailsLidos((prev) => prev.filter((_, i) => i !== index));
   }
 
   /* =========================
@@ -121,17 +113,15 @@ export function EnvioEmailForm() {
   ========================= */
   async function handleEnviarEmails() {
     if (emailsLidos.length === 0) {
-      toast.error("Nenhum destinatário para envio")
-      return
+      toast.error("Nenhum destinatário para envio");
+      return;
     }
 
-    const confirmar = confirm(
-      `Deseja enviar ${emailsLidos.length} e-mails?`
-    )
+    const confirmar = confirm(`Deseja enviar ${emailsLidos.length} e-mails?`);
 
-    if (!confirmar) return
+    if (!confirmar) return;
 
-    setIsSending(true)
+    setIsSending(true);
 
     const payload = {
       remetente: {
@@ -141,23 +131,23 @@ export function EnvioEmailForm() {
         email: authUser.email,
       },
       destinatarios: emailsLidos,
-    }
+    };
 
     try {
       const res = await fetch("/api/envio-email-quest", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
-      })
+      });
 
-      if (!res.ok) throw new Error()
+      if (!res.ok) throw new Error();
 
-      toast.success("E-mails enviados com sucesso!")
-      setEmailsLidos([])
+      toast.success("E-mails enviados com sucesso!");
+      setEmailsLidos([]);
     } catch {
-      toast.error("Erro ao enviar e-mails")
+      toast.error("Erro ao enviar e-mails");
     } finally {
-      setIsSending(false)
+      setIsSending(false);
     }
   }
 
@@ -214,23 +204,17 @@ export function EnvioEmailForm() {
             <Input
               placeholder="Email"
               value={item.email}
-              onChange={(e) =>
-                atualizarItem(index, "email", e.target.value)
-              }
+              onChange={(e) => atualizarItem(index, "email", e.target.value)}
             />
             <Input
               placeholder="Empresa"
               value={item.empresa}
-              onChange={(e) =>
-                atualizarItem(index, "empresa", e.target.value)
-              }
+              onChange={(e) => atualizarItem(index, "empresa", e.target.value)}
             />
             <Input
               placeholder="Link"
               value={item.link}
-              onChange={(e) =>
-                atualizarItem(index, "link", e.target.value)
-              }
+              onChange={(e) => atualizarItem(index, "link", e.target.value)}
             />
             <Button
               variant="destructive"
@@ -266,5 +250,5 @@ export function EnvioEmailForm() {
         </p>
       )}
     </div>
-  )
+  );
 }
