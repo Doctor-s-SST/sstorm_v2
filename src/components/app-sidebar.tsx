@@ -16,7 +16,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
-import SidebarLogoDoctors from "./SidebarLogoDoctors"
+import LogoDoctors from "./LogoDoctors"
  
 
 
@@ -57,7 +57,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader className="flex items-center justify-center h-16">
-         <SidebarLogoDoctors />
+         <LogoDoctors />
       </SidebarHeader>
 
       <SidebarContent className="mt-5">

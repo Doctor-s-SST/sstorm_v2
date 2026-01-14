@@ -6,7 +6,7 @@ import { AppSidebar } from "@/components/app-sidebar"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Toaster } from "@/components/ui/sonner"
 import { useAuth } from "@/components/providers/auth-provider"
-import SidebarLogoStorm from "@/components/SidebarLogoSstorm"
+import LogoStorm from "@/components/LogoSstorm"
 
 function PrivateShell({ children }: { children: React.ReactNode }) {
   const { user, loading } = useAuth()
@@ -27,7 +27,7 @@ function PrivateShell({ children }: { children: React.ReactNode }) {
         <SidebarInset className="flex flex-col w-full">
           <header className="flex h-16 items-center justify-center border-b px-6">
             <SidebarTrigger className="cursor-pointer" />
-            <SidebarLogoStorm />
+            <LogoStorm />
           </header>
 
           <main className="flex-1 overflow-y-auto p-6 bg-muted/10">

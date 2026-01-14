@@ -101,7 +101,7 @@ export function NavUser({
               <DropdownMenuSeparator />
 
               <DropdownMenuItem
-                className="text-red-600 font-semibold cursor-pointer"
+                className="text-destructive font-semibold cursor-pointer"
                 onClick={logout}
               >
                 <LogOut className="mr-2 h-4 w-4" />
