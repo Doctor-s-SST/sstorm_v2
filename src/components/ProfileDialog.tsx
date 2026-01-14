@@ -21,9 +21,10 @@ import { useAuth } from "@/components/providers/auth-provider";
 export function ProfileDialog() {
   const { user, refreshUser } = useAuth();
 
-  const [firstName, setFirstName] = useState(user?.first_name ?? "");
-  const [lastName, setLastName] = useState(user?.last_name ?? "");
-  const [cargo, setCargo] = useState(user?.cargo ?? "");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [cargo, setCargo] = useState("");
+
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
@@ -40,8 +41,9 @@ export function ProfileDialog() {
     try {
       setIsSaving(true);
 
-      const res = await fetch("/api/auth/me", {
-        method: "PUT",
+      const res = await fetch("/api/auth/update", {
+        method: "POST",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           first_name: firstName,
