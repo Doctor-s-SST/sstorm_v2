@@ -16,7 +16,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
-import SidebarLogo from "./SidebarLogo"
+import SidebarLogoDoctors from "./SidebarLogoDoctors"
  
 
 
@@ -57,7 +57,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader className="flex items-center justify-center h-16">
-         <SidebarLogo />
+         <SidebarLogoDoctors />
       </SidebarHeader>
 
       <SidebarContent className="mt-5">
@@ -65,13 +65,14 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
 
-      <SidebarFooter>
+      <SidebarFooter >
         <NavUser
           user={{
             name: `${user.first_name} ${user.last_name}`,
             email: user.email,
             cargo: user.cargo,
           }}
+          
         />
       </SidebarFooter>
 

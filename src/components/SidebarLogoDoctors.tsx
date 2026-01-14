@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useSidebar } from "./ui/sidebar";
 import Link from "next/link";
 
-export default function SidebarLogo() {
+export default function SidebarLogoDoctors() {
   const { state } = useSidebar();
 
   return (
