@@ -67,32 +67,33 @@ export function NavUser({
                 onSelect={(e) => {
                   e.preventDefault();
                 }}
+                className="group focus:bg-primary/70 hover:bg-primary/70 hover:text-white"
               >
-                <CircleUserRound className="mr-2 h-4 w-4" />
+                <CircleUserRound className="mr-2 h-4 w-4 group-hover:text-white" />
                 <ProfileDialog />
               </DropdownMenuItem>
 
               <DropdownMenuSeparator />
 
-              <DropdownMenuSub >
-                <DropdownMenuSubTrigger className="cursor-pointer">
-                  <Laptop className="mr-2 h-4 w-4" />
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger className="cursor-pointer group data-[state=open]:bg-secondary/80 focus:bg-secondary/80 focus:text-white">
+                  <Laptop className="mr-2 h-4 w-4 group-hover:text-white dark:group-hover:text-white" />
                   Tema
                 </DropdownMenuSubTrigger>
 
                 <DropdownMenuSubContent>
-                  <DropdownMenuItem onClick={() => setTheme("light")} className="cursor-pointer">
-                    <Sun className="mr-2 h-4 w-4" />
+                  <DropdownMenuItem onClick={() => setTheme("light")} className="cursor-pointer group focus:bg-secondary/80 focus:text-white">
+                    <Sun className="mr-2 h-4 w-4 group-hover:text-white" />
                     Claro
                   </DropdownMenuItem>
 
-                  <DropdownMenuItem onClick={() => setTheme("dark")} className="cursor-pointer">
-                    <Moon className="mr-2 h-4 w-4" />
+                  <DropdownMenuItem onClick={() => setTheme("dark")} className="cursor-pointer group focus:bg-secondary/80 focus:text-white">
+                    <Moon className="mr-2 h-4 w-4 group-hover:text-white" />
                     Escuro
                   </DropdownMenuItem>
 
-                  <DropdownMenuItem onClick={() => setTheme("system")} className="cursor-pointer">
-                    <Laptop className="mr-2 h-4 w-4" />
+                  <DropdownMenuItem onClick={() => setTheme("system")} className="cursor-pointer group focus:bg-secondary/80 focus:text-white">
+                    <Laptop className="mr-2 h-4 w-4 group-hover:text-white" />
                     Sistema
                   </DropdownMenuItem>
                 </DropdownMenuSubContent>
@@ -101,10 +102,10 @@ export function NavUser({
               <DropdownMenuSeparator />
 
               <DropdownMenuItem
-                className="text-destructive font-semibold cursor-pointer"
+                className="text-destructive font-semibold cursor-pointer group focus:bg-destructive/80 focus:text-white"
                 onClick={logout}
               >
-                <LogOut className="mr-2 h-4 w-4" />
+                <LogOut className="mr-2 h-4 w-4 group-hover:text-white" />
                 Sair
               </DropdownMenuItem>
             </DropdownMenuContent>

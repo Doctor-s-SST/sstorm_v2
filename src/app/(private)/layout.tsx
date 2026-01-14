@@ -26,7 +26,7 @@ function PrivateShell({ children }: { children: React.ReactNode }) {
 
         <SidebarInset className="flex flex-col w-full">
           <header className="flex h-16 items-center justify-center border-b px-6">
-            <SidebarTrigger className="cursor-pointer" />
+            <SidebarTrigger className="cursor-pointer dark:hover:bg-primary hover:bg-primary" />
             <LogoStorm />
           </header>
 
