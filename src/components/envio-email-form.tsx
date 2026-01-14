@@ -155,18 +155,21 @@ export function EnvioEmailForm() {
      UI (RETORNO CORRETO)
   ========================= */
   return (
-    <div className="max-w-3xl w-full space-y-6 border p-6 rounded-lg bg-card shadow-sm overflow-x-hidden">
+    <div className="max-w-3xl w-full space-y-6 border p-4 sm:p-6 rounded-lg bg-card shadow-sm overflow-x-hidden">
       {/* Datas */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Input
           type="date"
           value={dataInicio}
           onChange={(e) => setDataInicio(e.target.value)}
+          className="w-full max-w-full min-w-0"
         />
+
         <Input
           type="date"
           value={dataFim}
           onChange={(e) => setDataFim(e.target.value)}
+          className="w-full max-w-full min-w-0"
         />
       </div>
 
@@ -187,7 +190,7 @@ export function EnvioEmailForm() {
           type="button"
           variant="outline"
           onClick={adicionarManual}
-          className="w-full cursor-pointer"
+          className="w-full cursor-pointer dark:hover:bg-accent"
         >
           Adicionar manualmente
           <Plus className="ml-2 h-4 w-4" />

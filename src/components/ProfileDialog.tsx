@@ -1,4 +1,9 @@
-import { Button } from "@/components/ui/button"
+"use client";
+
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
@@ -8,45 +13,124 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-
-
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useAuth } from "@/components/providers/auth-provider";
 
 export function ProfileDialog() {
+  const { user, refreshUser } = useAuth();
+
+  const [firstName, setFirstName] = useState(user?.first_name ?? "");
+  const [lastName, setLastName] = useState(user?.last_name ?? "");
+  const [cargo, setCargo] = useState(user?.cargo ?? "");
+  const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    if (user) {
+      setFirstName(user.first_name ?? "");
+      setLastName(user.last_name ?? "");
+      setCargo(user.cargo ?? "");
+    }
+  }, [user]);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+
+    try {
+      setIsSaving(true);
+
+      const res = await fetch("/api/auth/me", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          first_name: firstName,
+          last_name: lastName,
+          cargo,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error();
+      }
+
+      await refreshUser();
+      toast.success("Dados atualizados com sucesso");
+    } catch {
+      toast.error("Erro ao atualizar dados");
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
+  if (!user) return null;
+
   return (
     <Dialog>
-      <form>
-        <DialogTrigger asChild>
-          <div className="cursor-pointer">Editar Dados</div>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+      <DialogTrigger asChild>
+        <div className="cursor-pointer">Editar dados</div>
+      </DialogTrigger>
+
+      <DialogContent className="sm:max-w-[420px]">
+        <form onSubmit={handleSubmit}>
           <DialogHeader>
-            <DialogTitle>Edit profile</DialogTitle>
+            <DialogTitle>Editar perfil</DialogTitle>
             <DialogDescription>
-              Make changes to your profile here. Click save when you&apos;re
-              done.
+              Atualize seus dados pessoais abaixo.
             </DialogDescription>
           </DialogHeader>
-          <div className="grid gap-4">
-            <div className="grid gap-3">
-              <Label htmlFor="name-1">Name</Label>
-              <Input id="name-1" name="name" defaultValue="Pedro Duarte" />
+
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label>Nome</Label>
+              <Input
+                value={firstName}
+                onChange={(e) => setFirstName(e.target.value)}
+                required
+              />
             </div>
-            <div className="grid gap-3">
-              <Label htmlFor="username-1">Username</Label>
-              <Input id="username-1" name="username" defaultValue="@peduarte" />
+
+            <div className="grid gap-2">
+              <Label>Sobrenome</Label>
+              <Input
+                value={lastName}
+                onChange={(e) => setLastName(e.target.value)}
+                required
+              />
+            </div>
+
+            <div className="grid gap-2">
+              <Label>Email</Label>
+              <Input value={user.email} disabled />
+            </div>
+
+            <div className="grid gap-2">
+              <Label>Cargo</Label>
+              <Input value={cargo} onChange={(e) => setCargo(e.target.value)} />
             </div>
           </div>
+
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="outline" className="cursor-pointer">Cancel</Button>
+              <Button
+                variant="outline"
+                type="button"
+                className="cursor-pointer"
+              >
+                Cancelar
+              </Button>
             </DialogClose>
-            <Button type="submit" className="cursor-pointer">Save changes</Button>
+
+            <Button
+              type="submit"
+              disabled={isSaving}
+              className="cursor-pointer"
+            >
+              {isSaving ? "Salvando..." : "Salvar alterações"}
+            </Button>
           </DialogFooter>
-        </DialogContent>
-      </form>
+        </form>
+      </DialogContent>
     </Dialog>
-  )
+  );
 }

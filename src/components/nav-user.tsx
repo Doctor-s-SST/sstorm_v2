@@ -47,7 +47,7 @@ export function NavUser({
         <SidebarMenuItem>
           <DropdownMenu>
             <DropdownMenuTrigger asChild className="cursor-pointer">
-              <SidebarMenuButton size="lg">
+              <SidebarMenuButton size="lg" className="hover:bg-gray-300 dark:hover:bg-gray-800">
                 <div className="grid flex-1 text-left text-sm">
                   <span className="truncate font-medium">{user.name}</span>
                   <span className="truncate text-xs text-muted-foreground">

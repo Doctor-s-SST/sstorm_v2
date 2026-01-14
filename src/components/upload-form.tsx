@@ -124,9 +124,9 @@ export function UploadForm() {
             Arquivos Gerados:
           </p>
           {downloads.map((dl, index) => (
-            <div key={index} className="p-3 border rounded-md bg-secondary/20 flex items-center justify-between gap-4">
+            <div key={index} className="p-3 border rounded-md bg-accent/70 flex items-center justify-between gap-4">
               <span className="text-xs truncate font-medium flex-1">{dl.filename}</span>
-              <Button asChild size="sm" variant="outline" className="h-8">
+              <Button asChild size="sm" variant="outline" className="h-8 hover:bg-accent/90">
                 <a href={dl.url} download={dl.filename}>
                   <FileDown className="h-3 w-3 mr-1" />
                   Baixar
