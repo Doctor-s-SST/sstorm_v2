@@ -1,3 +1,5 @@
+console.log("🔥 UPDATE ROUTE LOADED");
+
 import { NextResponse } from "next/server"
 
 export const dynamic = "force-dynamic"

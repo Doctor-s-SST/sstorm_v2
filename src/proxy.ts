@@ -6,7 +6,7 @@ export function proxy(req: NextRequest) {
 
   const publicRoutes = ["/login", "/register"];
 
-  // ignora APIs completamente
+  // libera APIs
   if (pathname.startsWith("/api")) {
     return NextResponse.next();
   }
@@ -15,12 +15,10 @@ export function proxy(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // usuário logado não acessa login/register
   if (token && publicRoutes.includes(pathname)) {
     return NextResponse.redirect(new URL("/", req.url));
   }
 
-  // usuário não logado tentando acessar rota privada
   if (!token && !publicRoutes.includes(pathname)) {
     return NextResponse.redirect(new URL("/login", req.url));
   }

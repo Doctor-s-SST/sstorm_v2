@@ -18,7 +18,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/components/providers/auth-provider";
 
-export function ProfileDialog() {
+type ProfileDialogProps = {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+};
+
+export function ProfileDialog({ open, onOpenChange }: ProfileDialogProps) {
   const { user, refreshUser } = useAuth();
 
   const [firstName, setFirstName] = useState("");
@@ -28,12 +33,12 @@ export function ProfileDialog() {
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
-    if (user) {
+    if (open && user) {
       setFirstName(user.first_name ?? "");
       setLastName(user.last_name ?? "");
       setCargo(user.cargo ?? "");
     }
-  }, [user]);
+  }, [open, user]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -41,8 +46,8 @@ export function ProfileDialog() {
     try {
       setIsSaving(true);
 
-      const res = await fetch("/api/auth/update", {
-        method: "POST",
+      const res = await fetch("/api/auth/me", {
+        method: "PUT",
         credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -53,7 +58,8 @@ export function ProfileDialog() {
       });
 
       if (!res.ok) {
-        throw new Error();
+        const data = await res.json();
+        throw new Error(data.error ?? "Erro ao atualizar");
       }
 
       await refreshUser();
@@ -68,11 +74,7 @@ export function ProfileDialog() {
   if (!user) return null;
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <div className="cursor-pointer">Editar dados</div>
-      </DialogTrigger>
-
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[420px]">
         <form onSubmit={handleSubmit}>
           <DialogHeader>
