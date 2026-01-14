@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import * as z from "zod"
-import { toast } from "sonner"
-import { Button } from "@/components/ui/button"
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -12,9 +12,10 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { useRouter } from "next/navigation"
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const formSchema = z.object({
   first_name: z.string().min(2, "Informe seu nome"),
@@ -22,10 +23,10 @@ const formSchema = z.object({
   email: z.string().email("Email inválido"),
   cargo: z.string().min(2, "Informe seu cargo"),
   password: z.string().min(6, "Senha mínima de 6 caracteres"),
-})
+});
 
 export default function RegisterPage() {
-  const router = useRouter()
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -36,7 +37,7 @@ export default function RegisterPage() {
       cargo: "",
       password: "",
     },
-  })
+  });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const registerPromise = async () => {
@@ -44,31 +45,51 @@ export default function RegisterPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
-      })
+      });
 
       if (res.status === 409) {
-        const data = await res.json()
-        throw new Error(data.error)
+        const data = await res.json();
+        throw new Error(data.error);
       }
 
-      if (!res.ok) throw new Error("Erro no cadastro")
-    }
+      if (!res.ok) throw new Error("Erro no cadastro");
+    };
 
     toast.promise(registerPromise(), {
       loading: "Criando conta...",
       success: () => {
         setTimeout(() => {
-          router.push("/login")
-        }, 2000)
+          router.push("/login");
+        }, 1000);
 
-        return "Cadastro realizado com sucesso! Redirecionando para tela de login"
+        return "Cadastro realizado com sucesso! Redirecionando para tela de login";
       },
       error: (err) => err.message || "Erro ao cadastrar usuário",
-    })
+    });
   }
 
   return (
-    <div className="flex min-h-full items-center justify-center bg-muted/10">
+    <div className="flex flex-col items-center justify-center gap-5 w-screen m-5">
+      <div className="flex flex-row gap-10 items-center justify-center">
+        <Image
+          src="/email-assets/logo-cropped.svg"
+          alt="Logo Doctor's SST"
+          width={100}
+          height={40}
+          priority
+          className="object-contain"
+        />
+        <div className="h-10 w-px bg-border" />
+        <Image
+          src="/email-assets/doctors-svg.svg"
+          alt="Logo Doctor's SST"
+          width={100}
+          height={40}
+          priority
+          className="object-contain"
+        />
+      </div>
+
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -111,7 +132,10 @@ export default function RegisterPage() {
               <FormItem>
                 <FormLabel>E-mail corporativo</FormLabel>
                 <FormControl>
-                  <Input placeholder="nome@doctorspraiagrande.com.br" {...field} />
+                  <Input
+                    placeholder="nome@doctorspraiagrande.com.br"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -146,7 +170,10 @@ export default function RegisterPage() {
             )}
           />
 
-          <Button className="w-full cursor-pointer" disabled={form.formState.isSubmitting}>
+          <Button
+            className="w-full cursor-pointer"
+            disabled={form.formState.isSubmitting}
+          >
             {form.formState.isSubmitting ? "Criando..." : "Cadastrar"}
           </Button>
 
@@ -155,14 +182,13 @@ export default function RegisterPage() {
             <button
               type="button"
               onClick={() => router.push("/login")}
-              className="text-primary underline hover:opacity-80 cursor-pointer"
+              className="text-secondary underline hover:opacity-80 cursor-pointer"
             >
               Faça Login
             </button>
           </div>
-
         </form>
       </Form>
     </div>
-  )
+  );
 }
