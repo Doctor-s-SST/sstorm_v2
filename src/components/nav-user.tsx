@@ -7,6 +7,7 @@ import {
   Moon,
   Sun,
   Laptop,
+  RotateCcwKey,
 } from "lucide-react";
 import { useTheme } from "next-themes";
 import {
@@ -26,6 +27,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { useAuth } from "@/components/providers/auth-provider";
+import { PasswordDialog } from "./PasswordDialog";
 import { ProfileDialog } from "./ProfileDialog";
 import { useState } from "react";
 
@@ -42,6 +44,7 @@ export function NavUser({
   const { logout } = useAuth();
   const { theme, setTheme } = useTheme();
   const [profileOpen, setProfileOpen] = useState(false);
+  const [passwordOpen, setPasswordOpen] = useState(false);
 
   return (
     <>
@@ -73,10 +76,23 @@ export function NavUser({
                   e.preventDefault();
                   setProfileOpen(true);
                 }}
-                className="cursor-pointer group focus:bg-secondary/80 focus:text-white"
+                className="cursor-pointer group focus:bg-primary/80 focus:text-white"
               >
                 <CircleUserRound className="mr-2 h-4 w-4 group-hover:text-white" />
                 Editar dados
+              </DropdownMenuItem>
+
+              <DropdownMenuSeparator />
+
+              <DropdownMenuItem
+                onSelect={(e) => {
+                  e.preventDefault();
+                  setPasswordOpen(true);
+                }}
+                className="cursor-pointer group focus:bg-accent/80 focus:text-white"
+              >
+                <RotateCcwKey className="mr-2 h-4 w-4 group-hover:text-white" />
+                Redefinir senha
               </DropdownMenuItem>
 
               <DropdownMenuSeparator />
@@ -126,6 +142,7 @@ export function NavUser({
             </DropdownMenuContent>
           </DropdownMenu>
           <ProfileDialog open={profileOpen} onOpenChange={setProfileOpen} />
+          <PasswordDialog open={passwordOpen} onOpenChange={setPasswordOpen} />
         </SidebarMenuItem>
       </SidebarMenu>
     </>
