@@ -47,10 +47,16 @@ export function EnvioEmailForm() {
     try {
       setIsLoadingEmails(true);
 
-      const res = await fetch("/api/ler-email-quest", {
+      const res = await fetch("https://doctors-n8n-webhook.cgalnz.easypanel.host/webhook/ler-email-quest", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ dataInicio, dataFim }),
+        headers: {
+          "Content-Type": "application/json",
+          "X-Internal-Token": "4f9c3a7b9a1e4c8db2f3a9d7",
+        },
+        body: JSON.stringify({
+          dataInicio,
+          dataFim,
+        }),
       });
 
       const response = await res.json();
@@ -116,71 +122,71 @@ export function EnvioEmailForm() {
      Enviar e-mails
   ========================= */
   async function handleEnviarEmails() {
-  if (emailsLidos.length === 0) {
-    toast.error("Nenhum destinatário para envio");
-    return;
-  }
+    if (emailsLidos.length === 0) {
+      toast.error("Nenhum destinatário para envio");
+      return;
+    }
 
-  const invalido = emailsLidos.findIndex(
-    (item) =>
-      !item.email.trim() ||
-      !item.empresa.trim() ||
-      !item.link.trim()
-  );
-
-  if (invalido !== -1) {
-    toast.error(
-      `Preencha todos os campos (email, empresa e link) no destinatário #${invalido + 1}`
+    const invalido = emailsLidos.findIndex(
+      (item) =>
+        !item.email.trim() ||
+        !item.empresa.trim() ||
+        !item.link.trim()
     );
-    return;
-  }
 
-  const emailInvalido = emailsLidos.findIndex(
-    (item) => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(item.email)
-  );
+    if (invalido !== -1) {
+      toast.error(
+        `Preencha todos os campos (email, empresa e link) no destinatário #${invalido + 1}`
+      );
+      return;
+    }
 
-  if (emailInvalido !== -1) {
-    toast.error(
-      `E-mail inválido no destinatário #${emailInvalido + 1}`
+    const emailInvalido = emailsLidos.findIndex(
+      (item) => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(item.email)
     );
-    return;
+
+    if (emailInvalido !== -1) {
+      toast.error(
+        `E-mail inválido no destinatário #${emailInvalido + 1}`
+      );
+      return;
+    }
+
+    const confirmar = confirm(
+      `Deseja enviar ${emailsLidos.length} e-mails?`
+    );
+
+    if (!confirmar) return;
+
+    setIsSending(true);
+
+    const payload = {
+      remetente: {
+        nome: authUser.first_name,
+        sobrenome: authUser.last_name,
+        cargo: authUser.cargo,
+        email: authUser.email,
+      },
+      destinatarios: emailsLidos,
+    };
+
+    try {
+      const res = await fetch("/api/envio-email-quest", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) throw new Error();
+
+      toast.success("E-mails enviados com sucesso!");
+      setEmailsLidos([]);
+    } catch {
+      toast.error("Erro ao enviar e-mails");
+    } finally {
+      setIsSending(false);
+    }
   }
-
-  const confirmar = confirm(
-    `Deseja enviar ${emailsLidos.length} e-mails?`
-  );
-
-  if (!confirmar) return;
-
-  setIsSending(true);
-
-  const payload = {
-    remetente: {
-      nome: authUser.first_name,
-      sobrenome: authUser.last_name,
-      cargo: authUser.cargo,
-      email: authUser.email,
-    },
-    destinatarios: emailsLidos,
-  };
-
-  try {
-    const res = await fetch("/api/envio-email-quest", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
-
-    if (!res.ok) throw new Error();
-
-    toast.success("E-mails enviados com sucesso!");
-    setEmailsLidos([]);
-  } catch {
-    toast.error("Erro ao enviar e-mails");
-  } finally {
-    setIsSending(false);
-  }
-}
 
 
   /* =========================
