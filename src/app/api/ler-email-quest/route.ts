@@ -15,6 +15,12 @@ export async function POST(req: Request) {
       );
     }
 
+    const controller = new AbortController();
+
+    const timeout = setTimeout(() => {
+      controller.abort();
+    }, 180000); // 3 minutos
+
     const n8nResponse = await fetch(process.env.N8N_LER_EMAILS_QUEST_URL!, {
       method: "POST",
       headers: {
@@ -24,8 +30,11 @@ export async function POST(req: Request) {
       body: JSON.stringify({
         dataInicio,
         dataFim,
+        signal: controller.signal,
       }),
     });
+
+    clearTimeout(timeout);
 
     const responseText = await n8nResponse.text();
 

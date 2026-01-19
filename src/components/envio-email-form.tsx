@@ -63,8 +63,8 @@ export function EnvioEmailForm() {
       const emails: Destinatario[] = Array.isArray(response)
         ? response
         : Array.isArray(response.data)
-        ? response.data
-        : [];
+          ? response.data
+          : [];
 
       if (emails.length === 0) {
         toast.error("Nenhum e-mail válido retornado");
@@ -74,8 +74,12 @@ export function EnvioEmailForm() {
       setEmailsLidos(emails);
 
       toast.success("E-mails carregados com sucesso");
-    } catch {
-      toast.error("Falha ao buscar e-mails");
+    } catch (err: any) {
+      if (err.name === "AbortError") {
+        toast.error("Tempo limite excedido. Tente um período menor.");
+      } else {
+        toast.error("Erro ao buscar e-mails");
+      }
     } finally {
       setIsLoadingEmails(false);
     }
