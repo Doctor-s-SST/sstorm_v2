@@ -116,44 +116,72 @@ export function EnvioEmailForm() {
      Enviar e-mails
   ========================= */
   async function handleEnviarEmails() {
-    if (emailsLidos.length === 0) {
-      toast.error("Nenhum destinatário para envio");
-      return;
-    }
-
-    const confirmar = confirm(`Deseja enviar ${emailsLidos.length} e-mails?`);
-
-    if (!confirmar) return;
-
-    setIsSending(true);
-
-    const payload = {
-      remetente: {
-        nome: authUser.first_name,
-        sobrenome: authUser.last_name,
-        cargo: authUser.cargo,
-        email: authUser.email,
-      },
-      destinatarios: emailsLidos,
-    };
-
-    try {
-      const res = await fetch("/api/envio-email-quest", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (!res.ok) throw new Error();
-
-      toast.success("E-mails enviados com sucesso!");
-      setEmailsLidos([]);
-    } catch {
-      toast.error("Erro ao enviar e-mails");
-    } finally {
-      setIsSending(false);
-    }
+  if (emailsLidos.length === 0) {
+    toast.error("Nenhum destinatário para envio");
+    return;
   }
+
+  const invalido = emailsLidos.findIndex(
+    (item) =>
+      !item.email.trim() ||
+      !item.empresa.trim() ||
+      !item.link.trim()
+  );
+
+  if (invalido !== -1) {
+    toast.error(
+      `Preencha todos os campos (email, empresa e link) no destinatário #${invalido + 1}`
+    );
+    return;
+  }
+
+  const emailInvalido = emailsLidos.findIndex(
+    (item) => !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(item.email)
+  );
+
+  if (emailInvalido !== -1) {
+    toast.error(
+      `E-mail inválido no destinatário #${emailInvalido + 1}`
+    );
+    return;
+  }
+
+  const confirmar = confirm(
+    `Deseja enviar ${emailsLidos.length} e-mails?`
+  );
+
+  if (!confirmar) return;
+
+  setIsSending(true);
+
+  const payload = {
+    remetente: {
+      nome: authUser.first_name,
+      sobrenome: authUser.last_name,
+      cargo: authUser.cargo,
+      email: authUser.email,
+    },
+    destinatarios: emailsLidos,
+  };
+
+  try {
+    const res = await fetch("/api/envio-email-quest", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) throw new Error();
+
+    toast.success("E-mails enviados com sucesso!");
+    setEmailsLidos([]);
+  } catch {
+    toast.error("Erro ao enviar e-mails");
+  } finally {
+    setIsSending(false);
+  }
+}
+
 
   /* =========================
      UI (RETORNO CORRETO)
