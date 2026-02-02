@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import {
-    FileCog,
+    FileCog, FileArchive 
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -38,14 +38,19 @@ const data = {
         },
       ],
     },
+    {
+      title: "Docs Condomínio",
+      url: "#",
+      icon: FileArchive,
+      isActive: true,
+      items: [
+    {
+          title: "Baixar Docs Gerados",
+          url: "/download_docs_cond",
+        },
+      ],
+    },
   ],
-  // projects: [
-  //   {
-  //     name: "Design Engineering",
-  //     url: "#",
-  //     icon: Frame,
-  //   },
-  // ],
 }
 
 export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
