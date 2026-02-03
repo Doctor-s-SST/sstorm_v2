@@ -90,6 +90,7 @@ export function DownloadDocsPeriodo() {
 
   return (
     <div className="max-w-md w-full space-y-6 border p-6 rounded-xl bg-card shadow-sm">
+      <h3 className="text-center mt-0 mb-3 font-medium">Selecione o Período das Visitas</h3>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Input
           type="date"
@@ -124,17 +125,21 @@ export function DownloadDocsPeriodo() {
         {files.map((file) => (
           <div
             key={file.id}
-            className="flex justify-between items-center border rounded-lg p-3"
+            className="flex items-center gap-3 border rounded-lg p-3"
           >
-            <div>
-              <p className="font-medium text-sm">{file.name}</p>
+            {/* TEXTO */}
+            <div className="flex-1 min-w-0">
+              <p className="font-medium text-sm break-words">
+                {file.name}
+              </p>
             </div>
 
+            {/* BOTÃO */}
             <Button
               size="sm"
               disabled={downloadingId === file.id}
               onClick={() => baixarArquivo(file)}
-              className="cursor-pointer"
+              className="cursor-pointer shrink-0"
             >
               {downloadingId === file.id ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -144,6 +149,7 @@ export function DownloadDocsPeriodo() {
             </Button>
           </div>
         ))}
+
       </div>
     </div>
   );

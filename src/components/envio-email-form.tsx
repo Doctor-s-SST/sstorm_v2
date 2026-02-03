@@ -195,6 +195,8 @@ export function EnvioEmailForm() {
   return (
     <div className="max-w-3xl w-full space-y-6 border p-4 sm:p-6 rounded-lg bg-card shadow-sm overflow-x-hidden">
       {/* Datas */}
+      <h3 className="text-center mt-0 mb-3 font-medium">Selecione o Período dos E-mails</h3>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <Input
           type="date"
