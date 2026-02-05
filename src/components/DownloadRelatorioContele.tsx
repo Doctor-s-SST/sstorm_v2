@@ -137,8 +137,11 @@ export function DownloadRelatorioContele() {
           className="cursor-pointer"
         />
       </div>
-
+      
       {/* SELECT PASTA */}
+      <p className="text-left ml-1 mb-1 font-small">
+        Filtro por Técnico:
+      </p>
       <select
         value={pasta}
         onChange={(e) => setPasta(e.target.value)}
@@ -161,12 +164,6 @@ export function DownloadRelatorioContele() {
       </Button>
 
       <div className="space-y-3">
-        {/* {files.length === 0 && (
-          <p className="text-sm text-muted-foreground">
-            Nenhum arquivo encontrado
-          </p>
-        )} */}
-
         {files
           .filter((f) => f.id && f.name)
           .map((file) => (
