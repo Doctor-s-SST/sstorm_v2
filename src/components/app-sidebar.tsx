@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import {
-    FileCog, FileArchive, CalendarCheck  
+    FileCog, FileArchive, CalendarCheck , IdCard
 } from "lucide-react"
 
 import { NavMain } from "@/components/nav-main"
@@ -59,6 +59,18 @@ const data = {
     {
           title: "Baixar Relatório Contele",
           url: "/download_relat_contele",
+        },
+      ],
+    },
+    {
+      title: "Certificados",
+      url: "#",
+      icon: IdCard,
+      isActive: true,
+      items: [
+    {
+          title: "Gerar Certificado",
+          url: "/gerar_certificado",
         },
       ],
     },
