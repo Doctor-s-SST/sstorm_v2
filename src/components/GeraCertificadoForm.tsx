@@ -112,20 +112,19 @@ export function GeraCertificadoForm() {
                 return;
             }
 
-            const blob = await res.blob();
+            const data = await res.json();
 
-            const url = window.URL.createObjectURL(blob);
+            if (data?.downloadUrl) {
 
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "certificados.zip";
-            document.body.appendChild(a);
-            a.click();
+                window.open(data.downloadUrl, "_blank");
 
-            a.remove();
-            window.URL.revokeObjectURL(url);
+                toast.success(`${totalCertificados} certificados gerados`);
 
-            toast.success(`${totalCertificados} certificados gerados`);
+            } else {
+
+                toast.error("Arquivo não retornado");
+
+            }
 
         } catch {
             toast.error("Erro na requisição");

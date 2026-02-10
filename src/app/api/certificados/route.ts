@@ -27,15 +27,12 @@ export async function POST(req: Request) {
             );
         }
 
-        const blob = await response.arrayBuffer();
+        const data = await response.json();
 
-        return new NextResponse(blob, {
-            status: 200,
-            headers: {
-                "Content-Type": "application/zip",
-                "Content-Disposition": "attachment; filename=certificados.zip",
-            },
+        return NextResponse.json(data, {
+            status: response.status,
         });
+
 
     } catch (err) {
 
