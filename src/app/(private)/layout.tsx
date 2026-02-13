@@ -2,7 +2,7 @@
 
 import { AuthProvider } from "@/components/providers/auth-provider"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/app-sidebar"
+import { AppSidebar } from "@/components/sidebar-navUser/app-sidebar"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Toaster } from "@/components/ui/sonner"
 import { useAuth } from "@/components/providers/auth-provider"

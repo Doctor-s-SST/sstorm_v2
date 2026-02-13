@@ -1,4 +1,4 @@
-import { DownloadDocsPeriodo } from "@/components/DownloadDocsPeriodo";
+import { DownloadDocsPeriodo } from "@/components/Docs/DownloadDocsPeriodo";
 
 export default function DowloadDocsCond() {
   return (

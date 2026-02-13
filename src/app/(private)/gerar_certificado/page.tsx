@@ -1,4 +1,4 @@
-import { GeraCertificadoForm } from "@/components/GeraCertificadoForm";
+import { GeraCertificadoForm } from "@/components/Docs/GeraCertificadoForm";
 
 export default function GeraCertificado() {
   return (

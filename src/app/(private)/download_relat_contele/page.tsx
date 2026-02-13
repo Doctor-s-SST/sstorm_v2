@@ -1,4 +1,4 @@
-import { DownloadRelatorioContele } from "@/components/DownloadRelatorioContele";
+import { DownloadRelatorioContele } from "@/components/Docs/DownloadRelatorioContele";
 
 export default function DownloadRelatContele() {
   return (

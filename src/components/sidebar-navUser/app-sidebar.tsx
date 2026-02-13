@@ -2,12 +2,12 @@
 
 import * as React from "react"
 import {
-    FileCog, FileArchive, CalendarCheck , IdCard
+  FileCog, FileArchive, CalendarCheck, IdCard, Mails
 } from "lucide-react"
 
-import { NavMain } from "@/components/nav-main"
+import { NavMain } from "@/components/sidebar-navUser/nav-main"
 // import { NavProjects } from "@/components/nav-projects"
-import { NavUser } from "@/components/nav-user"
+import { NavUser } from "@/components/sidebar-navUser/nav-user"
 import { useAuth } from "@/components/providers/auth-provider"
 import {
   Sidebar,
@@ -16,12 +16,12 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
-import LogoDoctors from "./LogoDoctors"
- 
+import LogoDoctors from "../LogoDoctors"
+
 
 
 const data = {
-    navMain: [
+  navMain: [
     {
       title: "AEP",
       url: "#",
@@ -30,11 +30,11 @@ const data = {
       items: [
         {
           title: "Gerar Relatório Psicossocial",
-          url: "/relatorio_psicossocial",
+          url: "/aep/relatorio_psicossocial",
         },
         {
           title: "E-mail de Acesso - SOC",
-          url: "/email_acesso_soc",
+          url: "/aep/email_acesso_soc",
         },
       ],
     },
@@ -44,7 +44,7 @@ const data = {
       icon: FileArchive,
       isActive: true,
       items: [
-    {
+        {
           title: "Baixar Docs Gerados",
           url: "/download_docs_cond",
         },
@@ -56,7 +56,7 @@ const data = {
       icon: CalendarCheck,
       isActive: true,
       items: [
-    {
+        {
           title: "Baixar Relatório Contele",
           url: "/download_relat_contele",
         },
@@ -68,10 +68,26 @@ const data = {
       icon: IdCard,
       isActive: true,
       items: [
-    {
+        {
           title: "Gerar Certificado",
           url: "/gerar_certificado",
         },
+      ],
+    },
+    {
+      title: "E-mail em Massa",
+      url: "#",
+      icon: Mails,
+      isActive: true,
+      items: [
+        {
+          title: "Depto. Técnico",
+          url: "/emails_massa/depto_tecnico",
+        },
+        // {
+        //   title: "Depto. Comercial",
+        //   url: "/emails_massa/depto_comercial",
+        // },
       ],
     },
   ],
@@ -86,7 +102,7 @@ export function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader className="flex items-center justify-center h-16">
-         <LogoDoctors />
+        <LogoDoctors />
       </SidebarHeader>
 
       <SidebarContent className="mt-5">

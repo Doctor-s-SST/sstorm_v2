@@ -1,4 +1,4 @@
-import { EnvioEmailForm } from "@/components/envio-email-form";
+import { EnvioEmailForm } from "@/components/AEP/envio-email-form";
 
 export default function EnvioEmailMassa() {
   

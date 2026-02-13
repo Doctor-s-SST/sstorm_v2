@@ -1,4 +1,4 @@
-import { UploadForm } from "@/components/upload-form";
+import { UploadForm } from "@/components/AEP/upload-form";
 
 export default function RelatorioPsicossocial() {
   return (

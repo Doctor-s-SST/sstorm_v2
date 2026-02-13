@@ -51,7 +51,7 @@ export function EnvioEmailForm() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-Internal-Token": "4f9c3a7b9a1e4c8db2f3a9d7",
+          "X-Internal-Token": "fgy9c3a7b9a1e4c8db2h43hdj83a9d7",
         },
         body: JSON.stringify({
           dataInicio,

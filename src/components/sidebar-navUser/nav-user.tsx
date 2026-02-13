@@ -27,8 +27,8 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { useAuth } from "@/components/providers/auth-provider";
-import { PasswordDialog } from "./PasswordDialog";
-import { ProfileDialog } from "./ProfileDialog";
+import { PasswordDialog } from "../PasswordDialog";
+import { ProfileDialog } from "../ProfileDialog";
 import { useState } from "react";
 
 export function NavUser({
