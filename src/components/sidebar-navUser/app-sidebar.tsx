@@ -84,10 +84,10 @@ const data = {
           title: "Depto. Técnico",
           url: "/emails_massa/depto_tecnico",
         },
-        // {
-        //   title: "Depto. Comercial",
-        //   url: "/emails_massa/depto_comercial",
-        // },
+        {
+          title: "Depto. Comercial",
+          url: "/emails_massa/depto_comercial",
+        },
       ],
     },
   ],

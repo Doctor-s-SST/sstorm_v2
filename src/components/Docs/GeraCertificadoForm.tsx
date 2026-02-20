@@ -16,6 +16,7 @@ export function GeraCertificadoForm() {
     const [horaFim, setHoraFim] = useState("");
     const [empresaTreinamento, setEmpresaTreinamento] = useState("");
     const [endereco, setEndereco] = useState("");
+    const [requestId, setRequestId] = useState<string | null>(null);
 
     const [loading, setLoading] = useState(false);
 
@@ -89,13 +90,17 @@ export function GeraCertificadoForm() {
             return;
         }
 
+        const newRequestId = crypto.randomUUID();
+        setRequestId(newRequestId);
+
         try {
             setLoading(true);
 
-            const res = await fetch("/api/certificados", {
+            await fetch("/api/certificados", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
+                    requestId: newRequestId,
                     treinamento,
                     funcionarios: listaFuncionarios,
                     empresas: listaEmpresas,
@@ -107,24 +112,7 @@ export function GeraCertificadoForm() {
                 }),
             });
 
-            if (!res.ok) {
-                toast.error("Erro ao gerar certificados");
-                return;
-            }
-
-            const data = await res.json();
-
-            if (data?.downloadUrl) {
-
-                window.open(data.downloadUrl, "_blank");
-
-                toast.success(`${totalCertificados} certificados gerados`);
-
-            } else {
-
-                toast.error("Arquivo não retornado");
-
-            }
+            toast.success("Certificados estão sendo gerados");
 
         } catch {
             toast.error("Erro na requisição");
@@ -132,6 +120,34 @@ export function GeraCertificadoForm() {
             setLoading(false);
         }
     }
+
+    async function baixarCertificados() {
+
+        if (!requestId) return;
+
+        const res = await fetch(`/api/certificados-download?id=${requestId}`);
+
+        if (res.status === 202) {
+            toast("Ainda estamos gerando os certificados...");
+            return;
+        }
+
+        if (!res.ok) {
+            toast.error("Erro ao baixar");
+            return;
+        }
+
+        const blob = await res.blob();
+        const url = window.URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "certificados.zip";
+        a.click();
+
+        window.URL.revokeObjectURL(url);
+    }
+
 
     return (
         <div className="max-w-md w-full space-y-4 border p-6 rounded-xl bg-card shadow-sm">
@@ -206,6 +222,16 @@ export function GeraCertificadoForm() {
                     ? <Loader2 className="animate-spin h-4 w-4" />
                     : "Gerar Certificados"}
             </Button>
+
+            {requestId && (
+                <Button
+                    className="w-full"
+                    onClick={baixarCertificados}
+                >
+                    Baixar Certificados
+                </Button>
+            )}
+
 
         </div>
     );
