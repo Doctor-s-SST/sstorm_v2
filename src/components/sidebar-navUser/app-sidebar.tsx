@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import {
-  FileCog, FileArchive, CalendarCheck, IdCard, Mails
+  Signature, FileCog, FileArchive, CalendarCheck, IdCard, Mails, Building2, Brain 
 } from "lucide-react"
 
 import { NavMain } from "@/components/sidebar-navUser/nav-main"
@@ -26,7 +26,7 @@ const data = {
       title: "AEP",
       url: "#",
       icon: FileCog,
-      isActive: true,
+      isActive: false,
       items: [
         {
           title: "Gerar Relatório Psicossocial",
@@ -42,7 +42,7 @@ const data = {
       title: "Docs Condomínio",
       url: "#",
       icon: FileArchive,
-      isActive: true,
+      isActive: false,
       items: [
         {
           title: "Baixar Docs Gerados",
@@ -54,7 +54,7 @@ const data = {
       title: "Contele",
       url: "#",
       icon: CalendarCheck,
-      isActive: true,
+      isActive: false,
       items: [
         {
           title: "Baixar Relatório Contele",
@@ -66,7 +66,7 @@ const data = {
       title: "Certificados",
       url: "#",
       icon: IdCard,
-      isActive: true,
+      isActive: false,
       items: [
         {
           title: "Gerar Certificado",
@@ -78,8 +78,12 @@ const data = {
       title: "E-mail em Massa",
       url: "#",
       icon: Mails,
-      isActive: true,
+      isActive: false,
       items: [
+        {
+          title: "Modelos de E-mail",
+          url: "/emails_massa/modelos_email",
+        },
         {
           title: "Depto. Técnico",
           url: "/emails_massa/depto_tecnico",
@@ -87,6 +91,55 @@ const data = {
         {
           title: "Depto. Comercial",
           url: "/emails_massa/depto_comercial",
+        },
+      ],
+    },
+    {
+      title: "Administradoras",
+      url: "#",
+      icon: Building2,
+      isActive: false,
+      items: [
+        {
+          title: "Gerenciar Administradoras",
+          url: "/adms",
+        },
+      ],
+    },
+
+    {
+      title: "Assinar Documentos",
+      url: "#",
+      icon: Signature,
+      isActive: false,
+      items: [
+        {
+          title: "Dashboard",
+          url: "/assinador/dashboard",
+        },
+        {
+          title: "Documentos",
+          url: "/assinador/documentos",
+        },
+        {
+          title: "Upload de Documentos",
+          url: "/assinador/upload",
+        },
+        {
+          title: "Gerenciar Certificados",
+          url: "/assinador/certificados",
+        },
+      ],
+    },
+    {
+      title: "Heali",
+      url: "#",
+      icon: Brain,
+      isActive: false,
+      items: [
+        {
+          title: "Dashboard",
+          url: "/heali/dashboard",
         },
       ],
     },
