@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 import { toast } from "sonner";
-import { FileDown, FileUp, CheckCircle2 } from "lucide-react";
+import { FileDown, FileUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -17,15 +17,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-// 1. Alterado para aceitar 1 ou mais arquivos
+// --- SCHEMA ATUALIZADO ---
 const formSchema = z.object({
   texto: z.string().min(2, "O texto é obrigatório."),
   arquivo: z
     .any()
-    .refine(
-      (files) => files?.length >= 1,
-      "Selecione ao menos um arquivo Excel.",
-    ),
+    .refine((files) => files?.length >= 1, "Selecione ao menos um arquivo.")
+    .refine((files) => files?.length <= 10, "Você pode enviar no máximo 10 arquivos."), // Limite de 10
 });
 
 type DownloadItem = { url: string; filename: string };
@@ -60,8 +58,7 @@ export function UploadForm() {
 
         if (!response.ok) throw new Error(`Erro ao processar ${arquivo.name}`);
 
-        const rawHeaderFilename =
-          response.headers.get("filename") || "relatorio.pdf";
+        const rawHeaderFilename = response.headers.get("filename") || "relatorio.pdf";
         const filename = decodeURIComponent(rawHeaderFilename);
         const buffer = await response.arrayBuffer();
         const pdfBlob = new Blob([buffer], { type: "application/pdf" });
@@ -98,11 +95,7 @@ export function UploadForm() {
               <FormItem>
                 <FormLabel>Mês/Ano de emissão</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Ex: Ago/2025"
-                    {...field}
-                    disabled={isProcessing}
-                  />
+                  <Input placeholder="Ex: Ago/2025" {...field} disabled={isProcessing} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -115,15 +108,15 @@ export function UploadForm() {
             render={({ field: { onChange, onBlur, name, ref } }) => (
               <FormItem>
                 <FormLabel>
-                  Arquivo Excel do SOC (Selecione um ou vários)
+                  Arquivos Excel (Máximo 10)
                 </FormLabel>
                 <FormControl>
                   <Input
                     type="file"
-                    multiple // 3. IMPORTANTE: Permite selecionar vários no explorador de arquivos
+                    multiple
                     accept=".xlsx, .xls"
                     disabled={isProcessing}
-                    onChange={(e) => onChange(e.target.files)}
+                    onChange={(e) => onChange(e.target.files)} // Captura o FileList
                     onBlur={onBlur}
                     name={name}
                     ref={ref}
@@ -134,29 +127,18 @@ export function UploadForm() {
             )}
           />
 
-          <Button
-            type="submit"
-            className="w-full cursor-pointer"
-            disabled={isProcessing}
-          >
+          <Button type="submit" className="w-full cursor-pointer" disabled={isProcessing}>
             {isProcessing ? "Processando Massa..." : "Gerar PDFs"}
             {!isProcessing && <FileUp className="ml-2 h-4 w-4" />}
           </Button>
         </form>
       </Form>
 
-      {/* 4. Lista de botões para download */}
       {downloads.length > 0 && (
         <div className="space-y-3">
           {downloads.map((dl, index) => (
-            <div
-              key={index}
-              className="flex justify-between items-center border rounded-lg p-3"
-            >
-              <div>
-                <p className="font-medium text-sm">{dl.filename}</p>
-              </div>
-
+            <div key={index} className="flex justify-between items-center border rounded-lg p-3">
+              <p className="font-medium text-sm truncate mr-2">{dl.filename}</p>
               <Button
                 size="sm"
                 onClick={() => {
@@ -167,7 +149,6 @@ export function UploadForm() {
                   a.click();
                   a.remove();
                 }}
-                className="cursor-pointer"
               >
                 <FileDown className="h-4 w-4" />
               </Button>
