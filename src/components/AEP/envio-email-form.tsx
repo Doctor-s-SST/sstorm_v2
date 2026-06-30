@@ -47,7 +47,7 @@ export function EnvioEmailForm() {
     try {
       setIsLoadingEmails(true);
 
-      const res = await fetch("https://doctors-n8n-webhook.cgalnz.easypanel.host/webhook/ler-email-quest", {
+      const res = await fetch("https://doctors-n8n-editor.avrhe3.easypanel.host/webhook-test/ler-email-quest", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
