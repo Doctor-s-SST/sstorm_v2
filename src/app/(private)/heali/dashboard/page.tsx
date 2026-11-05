@@ -157,7 +157,7 @@ export default function DashboardHeali() {
                 <CardContent className="p-5 flex justify-between items-center">
                     <div>
                         <p className="text-xs font-medium uppercase tracking-wider text-muted-foreground">{title}</p>
-                        <p className="text-3xl font-bold">{value}</p>
+                        <p className="text-3xl font-bold break-words">{value}</p>
                     </div>
                     <Icon className={cn("w-8 h-8 opacity-20", isActive && "opacity-100")} />
                 </CardContent>
@@ -166,14 +166,14 @@ export default function DashboardHeali() {
     }
 
     return (
-        <div className="p-6 max-w-8xl mx-auto space-y-8">
+        <div className="p-6 w-full max-w-full space-y-8 overflow-hidden">
             {/* HEADER & TOKEN */}
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4 bg-card p-6 rounded-xl border shadow-sm">
+            <div className="flex flex-col md:flex-row md:justify-between md:items-center gap-4 bg-card p-6 rounded-xl border shadow-sm">
                 <div>
                     <h1 className="text-2xl font-bold tracking-tight">Gestão AEP - HEALI</h1>
                     <p className="text-muted-foreground text-sm">Monitore o progresso das empresas em tempo real.</p>
                 </div>
-                <div className="flex gap-2 w-full md:w-96">
+               <div className="flex flex-col sm:flex-row gap-2 w-full md:w-96">
                     <Input
                         placeholder="Token de acesso"
                         value={token}
@@ -236,14 +236,14 @@ export default function DashboardHeali() {
                         </div>
                     </div>
 
-                    <div className="rounded-md border">
-                        <Table>
+                    <div className="w-full overflow-x-auto rounded-md border">
+                        <Table className="w-full">
                             <TableHeader className="bg-muted/50">
                                 <TableRow>
                                     <TableHead className="font-bold">Empresa</TableHead>
-                                    <TableHead className="text-center font-bold">Inscritos</TableHead>
-                                    <TableHead className="text-center font-bold">Executados</TableHead>
-                                    <TableHead className="text-center font-bold">Progresso</TableHead>
+                                    <TableHead className="font-bold hidden sm:table-cell">Inscritos</TableHead>
+                                    <TableHead className="text-center font-bold hidden sm:table-cell">Executados</TableHead>
+                                    <TableHead className="text-center font-bold hidden md:table-cell">Progresso</TableHead>
                                     <TableHead className="font-bold">Status</TableHead>
                                     <TableHead className="text-right font-bold">Ação</TableHead>
                                 </TableRow>
@@ -252,10 +252,10 @@ export default function DashboardHeali() {
                                 {dataFiltrada.length > 0 ? (
                                     dataFiltrada.map((item) => (
                                         <TableRow key={item.id} className="hover:bg-muted/30 transition-colors">
-                                            <TableCell className="font-medium">{item.nome}</TableCell>
-                                            <TableCell className="text-center">{item.inscritos}</TableCell>
-                                            <TableCell className="text-center">{item.execucoes}</TableCell>
-                                            <TableCell className="text-center">
+                                            <TableCell className="font-medium max-w-[250px] truncate">{item.nome}</TableCell>
+                                            <TableCell className="text-center hidden sm:table-cell">{item.inscritos}</TableCell>
+                                            <TableCell className="text-center hidden sm:table-cell">{item.execucoes}</TableCell>
+                                            <TableCell className="text-center hidden md:table-cell">
                                                 <div className="flex items-center justify-center gap-2">
                                                     <div className="w-16 bg-secondary h-2 rounded-full overflow-hidden hidden sm:block">
                                                         <div

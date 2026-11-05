@@ -17,6 +17,9 @@ export function DownloadDocsPeriodo() {
   const [files, setFiles] = useState<DriveFile[]>([]);
   const [loading, setLoading] = useState(false);
   const [downloadingId, setDownloadingId] = useState<string | null>(null);
+  // const [pdfFile, setPdfFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+  const [relatId, setRelatId] = useState("");
 
   async function buscarArquivos() {
     if (!dataInicio || !dataFim) {
@@ -88,6 +91,100 @@ export function DownloadDocsPeriodo() {
     }
   }
 
+  // function fileToBase64(file: File): Promise<string> {
+  //   return new Promise((resolve, reject) => {
+  //     const reader = new FileReader();
+
+  //     reader.readAsDataURL(file);
+
+  //     reader.onload = () => {
+  //       const result = reader.result as string;
+
+  //       // remove prefixo "data:application/pdf;base64,"
+  //       const base64 = result.split(",")[1];
+
+  //       resolve(base64);
+  //     };
+
+  //     reader.onerror = reject;
+  //   });
+  // }
+
+  // async function enviarPDF() {
+  //   if (!pdfFile) {
+  //     toast.error("Selecione um PDF");
+  //     return;
+  //   }
+
+  //   try {
+  //     setUploading(true);
+
+  //     const base64 = await fileToBase64(pdfFile);
+
+  //     const res = await fetch("/api/upload-relat", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({
+  //         fileName: pdfFile.name,
+  //         mimeType: pdfFile.type,
+  //         fileBase64: base64,
+  //       }),
+  //     });
+
+  //     const data = await res.json();
+
+  //     if (!res.ok) {
+  //       toast.error(data.error || "Erro ao enviar PDF");
+  //       return;
+  //     }
+
+  //     toast.success("PDF enviado com sucesso");
+  //     setPdfFile(null);
+
+  //   } catch {
+  //     toast.error("Erro ao enviar PDF");
+  //   } finally {
+  //     setUploading(false);
+  //   }
+  // }
+
+  async function enviarPDF() {
+  if (!relatId) {
+    toast.error("Informe o ID");
+    return;
+  }
+
+  try {
+    setUploading(true);
+
+    const res = await fetch("/api/upload-relat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        id: relatId,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      toast.error(data.error || "Erro ao enviar");
+      return;
+    }
+
+    toast.success("Processamento iniciado 🚀");
+
+  } catch {
+    toast.error("Erro ao enviar");
+  } finally {
+    setUploading(false);
+  }
+}
+
   return (
     <div className="max-w-md w-full space-y-6 border p-6 rounded-xl bg-card shadow-sm">
       <h3 className="text-center mt-0 mb-3 font-medium">Selecione o Período das Visitas</h3>
@@ -114,6 +211,25 @@ export function DownloadDocsPeriodo() {
         {loading ? "Buscando..." : "Buscar arquivos"}
         {!loading && <Search className="ml-2 h-4 w-4" />}
       </Button>
+
+      <div className="border-t pt-4 space-y-3">
+        <p className="text-sm font-medium">Importar PDF para processamento</p>
+
+        <Input
+          type="text"
+          placeholder="ID do relatório / arquivo"
+          value={relatId}
+          onChange={(e) => setRelatId(e.target.value)}
+        />
+
+        <Button
+          onClick={enviarPDF}
+          disabled={uploading}
+          className="w-full cursor-pointer"
+        >
+          {uploading ? "Enviando..." : "Enviar PDF"}
+        </Button>
+      </div>
 
       <div className="space-y-3">
         {files.length === 0 && (
