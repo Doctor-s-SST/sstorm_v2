@@ -47,11 +47,10 @@ export function EnvioEmailForm() {
     try {
       setIsLoadingEmails(true);
 
-      const res = await fetch("https://doctors-n8n-editor.avrhe3.easypanel.host/webhook/ler-email-quest", {
+      const res = await fetch("/api/ler-email-quest", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-Internal-Token": "fgy9c3a7b9a1e4c8db2h43hdj83a9d7",
         },
         body: JSON.stringify({
           dataInicio,
@@ -62,7 +61,7 @@ export function EnvioEmailForm() {
       const response = await res.json();
 
       if (!res.ok) {
-        toast.error(response.message || "Erro ao buscar e-mails");
+        toast.error(response.error || response.message || "Erro ao buscar e-mails");
         return;
       }
 

@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import {
-  Signature, FileCog, FileArchive, CalendarCheck, IdCard, Mails, Building2, Brain 
+  Signature, Users, FileCog, FileArchive, CalendarCheck, IdCard, Mails, Building2, Brain
 } from "lucide-react"
 
 import { NavMain } from "@/components/sidebar-navUser/nav-main"
@@ -74,63 +74,65 @@ const data = {
         },
       ],
     },
-    {
-      title: "E-mail em Massa",
-      url: "#",
-      icon: Mails,
-      isActive: false,
-      items: [
-        {
-          title: "Modelos de E-mail",
-          url: "/emails_massa/modelos_email",
-        },
-        {
-          title: "Depto. Técnico",
-          url: "/emails_massa/depto_tecnico",
-        },
-        {
-          title: "Depto. Comercial",
-          url: "/emails_massa/depto_comercial",
-        },
-      ],
-    },
-    {
-      title: "Administradoras",
-      url: "#",
-      icon: Building2,
-      isActive: false,
-      items: [
-        {
-          title: "Gerenciar Administradoras",
-          url: "/adms",
-        },
-      ],
-    },
-
-    {
-      title: "Assinar Documentos",
-      url: "#",
-      icon: Signature,
-      isActive: false,
-      items: [
-        {
-          title: "Dashboard",
-          url: "/assinador/dashboard",
-        },
-        {
-          title: "Documentos",
-          url: "/assinador/documentos",
-        },
-        {
-          title: "Upload de Documentos",
-          url: "/assinador/upload",
-        },
-        {
-          title: "Gerenciar Certificados",
-          url: "/assinador/certificados",
-        },
-      ],
-    },
+    // Em standby: E-mail em Massa, Administradoras e Assinar Documentos.
+    // Para reativar, descomente e retire as rotas de STANDBY_ROUTES em src/proxy.ts.
+    // {
+    //   title: "E-mail em Massa",
+    //   url: "#",
+    //   icon: Mails,
+    //   isActive: false,
+    //   items: [
+    //     {
+    //       title: "Modelos de E-mail",
+    //       url: "/emails_massa/modelos_email",
+    //     },
+    //     {
+    //       title: "Depto. Técnico",
+    //       url: "/emails_massa/depto_tecnico",
+    //     },
+    //     {
+    //       title: "Depto. Comercial",
+    //       url: "/emails_massa/depto_comercial",
+    //     },
+    //   ],
+    // },
+    // {
+    //   title: "Administradoras",
+    //   url: "#",
+    //   icon: Building2,
+    //   isActive: false,
+    //   items: [
+    //     {
+    //       title: "Gerenciar Administradoras",
+    //       url: "/adms",
+    //     },
+    //   ],
+    // },
+    //
+    // {
+    //   title: "Assinar Documentos",
+    //   url: "#",
+    //   icon: Signature,
+    //   isActive: false,
+    //   items: [
+    //     {
+    //       title: "Dashboard",
+    //       url: "/assinador/dashboard",
+    //     },
+    //     {
+    //       title: "Documentos",
+    //       url: "/assinador/documentos",
+    //     },
+    //     {
+    //       title: "Upload de Documentos",
+    //       url: "/assinador/upload",
+    //     },
+    //     {
+    //       title: "Gerenciar Certificados",
+    //       url: "/assinador/certificados",
+    //     },
+    //   ],
+    // },
     {
       title: "Heali",
       url: "#",
@@ -140,6 +142,18 @@ const data = {
         {
           title: "Dashboard",
           url: "/heali/dashboard",
+        },
+      ],
+    },
+        {
+      title: "Atendimentos",
+      url: "#",
+      icon: Users,
+      isActive: false,
+      items: [
+        {
+          title: "Dashboard",
+          url: "/atendimentos/",
         },
       ],
     },
