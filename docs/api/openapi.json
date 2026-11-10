@@ -3,7 +3,7 @@
   "info": {
     "title": "SSTORM Doctors – API",
     "version": "1.0.0",
-    "description": "Rotas de servidor do SSTORM (Next.js, `src/app/api`). Elas repassam as requisições a webhooks do n8n.\n\n**Sessão:** cookie httpOnly `session`, gravado por `POST /api/auth/login`. O proxy de rotas valida esse token no n8n em todas as rotas marcadas com cadeado e responde 401 quando a sessão é inválida ou 503 quando a validação não pode ser feita.\n\n**Públicas:** somente login, cadastro e logout dispensam sessão.\n\n**Standby:** as rotas de e-mail em massa, administradoras e assinador estão bloqueadas e não constam nesta especificação.\n\n**n8n:** cada operação informa em `x-n8n-env` o nome da variável de ambiente que guarda a URL do webhook. Endereços e chaves não são publicados aqui."
+    "description": "Rotas de servidor do SSTORM (Next.js, `src/app/api`). Elas repassam as requisições a webhooks do n8n.\n\n**Sessão:** cookie httpOnly `session`, gravado por `POST /api/auth/login`. O proxy de rotas valida esse token no n8n em todas as rotas marcadas com cadeado e responde 401 quando a sessão é inválida ou 503 quando a validação não pode ser feita.\n\n**Públicas:** somente login, cadastro e logout dispensam sessão.\n\n**Fora desta especificação:** as rotas de e-mail em massa, administradoras e assinador, em standby, e a de atendimentos, que não é utilizada.\n\n**n8n:** cada operação informa em `x-n8n-env` o nome da variável de ambiente que guarda a URL do webhook. Endereços e chaves não são publicados aqui."
   },
   "servers": [
     {
@@ -32,10 +32,6 @@
     {
       "name": "Heali",
       "description": "Acompanhamento dos programas AEP"
-    },
-    {
-      "name": "Atendimentos",
-      "description": "Processamento do relatório de atendimentos"
     }
   ],
   "paths": {
@@ -1113,67 +1109,6 @@
                   "nome_empresa": {
                     "type": "string",
                     "example": "Empresa Exemplo"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/atendimentos/upload-relatorio": {
-      "post": {
-        "tags": [
-          "Atendimentos"
-        ],
-        "summary": "Processa o PDF do relatório de atendimentos",
-        "description": "**Tela:** Dashboard de Atendimentos.\n\n**Variável do webhook:** `N8N_ATENDIMENTO_DASHBOARD_URL`.",
-        "security": [
-          {
-            "sessao": []
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Lista cujo primeiro item traz summary e pacientes."
-          },
-          "400": {
-            "description": "Entrada inválida.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Erro"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Erro interno ou falha no n8n.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Erro"
-                }
-              }
-            }
-          }
-        },
-        "x-n8n-env": [
-          "N8N_ATENDIMENTO_DASHBOARD_URL"
-        ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "required": [
-                  "file"
-                ],
-                "properties": {
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
                   }
                 }
               }

@@ -145,18 +145,20 @@ const data = {
         },
       ],
     },
-        {
-      title: "Atendimentos",
-      url: "#",
-      icon: Users,
-      isActive: false,
-      items: [
-        {
-          title: "Dashboard",
-          url: "/atendimentos/",
-        },
-      ],
-    },
+    // Inativo: Atendimentos não é utilizado. Para reativar, descomente e retire
+    // a rota de STANDBY_ROUTES em src/proxy.ts.
+    // {
+    //   title: "Atendimentos",
+    //   url: "#",
+    //   icon: Users,
+    //   isActive: false,
+    //   items: [
+    //     {
+    //       title: "Dashboard",
+    //       url: "/atendimentos/",
+    //     },
+    //   ],
+    // },
   ],
 }
 

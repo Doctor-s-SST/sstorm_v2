@@ -10,8 +10,8 @@ const PUBLIC_API_ROUTES = [
 // Valida a sessão na própria rota; evita uma segunda chamada ao n8n.
 const SELF_VALIDATED_API_ROUTES = ["/api/auth/me"];
 
-// Módulos em standby: telas voltam ao início e APIs respondem 404.
-const STANDBY_ROUTES = ["/adms", "/assinador", "/emails_massa"];
+// Módulos em standby ou sem uso: telas voltam ao início e APIs respondem 404.
+const STANDBY_ROUTES = ["/adms", "/assinador", "/emails_massa", "/atendimentos"];
 
 function isStandby(pathname: string) {
   const path = pathname.startsWith("/api/") ? pathname.slice(4) : pathname;
